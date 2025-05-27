@@ -28,6 +28,7 @@ class _SetupScreenState extends State<SetupScreen> {
 
   @override
   Widget build(BuildContext context) {
+     final screenWidth = MediaQuery.of(context).size.width;
     return Scaffold(
       body: Container(
         decoration: BoxDecoration(
@@ -68,16 +69,16 @@ class _SetupScreenState extends State<SetupScreen> {
                   child: Column(
                     children: [
                       // Titre
-                      Text(
-                        'CONFIGURATION',
-                        style: TextStyle(
-                          fontSize: 32,
-                          fontWeight: FontWeight.bold,
-                          color: Colors.brown[900],
-                          fontFamily: 'Times New Roman',
-                          letterSpacing: 2,
-                        ),
-                      ),
+                     Text(
+  'CONFIGURATION',
+  style: TextStyle(
+    fontSize: screenWidth * 0.06, // 6% de la largeur écran, à adapter
+    fontWeight: FontWeight.bold,
+    color: Colors.brown[900],
+    fontFamily: 'Times New Roman',
+    letterSpacing: 2,
+  ),
+),
                       
                       Divider(
                         color: Colors.brown,

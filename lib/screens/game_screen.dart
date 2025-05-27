@@ -89,20 +89,61 @@ void loadQuestion() {
 }
 
 
-void handleAnswer(bool isCorrect) {
+void handleAnswer(bool isCorrect) async {
   if (isCorrect) {
     correctAnswers++;
     if (!isCamembertTurn && correctAnswers == 3) {
-      // Phase camembert : charger une question camembert aléatoire automatique
+      // On récupère la question camembert à l'avance
       final question = widget.gameState.getRandomQuestionForAvailableThemes();
 
       if (question == null) {
-        // Plus de questions disponibles, gérer ça (ex: fin de jeu)
-        // Ou simplement passer au reset
+        // Plus de questions disponibles → reset ou fin de jeu
         resetTurn();
         return;
       }
 
+      // On affiche la modale avant la question camembert
+      await showDialog(
+        context: context,
+        barrierDismissible: false,
+        builder: (_) => AlertDialog(
+          backgroundColor: Color(0xFFF5F5DC),
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(10),
+            side: BorderSide(color: Colors.brown.shade800, width: 2),
+          ),
+          title: Text(
+            'Question Camembert',
+            style: TextStyle(
+              color: Colors.brown.shade900,
+              fontFamily: 'Times New Roman',
+            ),
+          ),
+          content: Text(
+            'Thème : ${question.theme}\n\nAppuyez sur OK pour continuer.',
+            style: TextStyle(color: Colors.brown.shade800),
+          ),
+          actions: [
+            ElevatedButton(
+              style: ElevatedButton.styleFrom(
+                backgroundColor: Colors.brown.shade700,
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(20),
+                ),
+              ),
+              onPressed: () {
+                Navigator.pop(context);
+              },
+              child: Text(
+                'OK',
+                style: TextStyle(color: Colors.white),
+              ),
+            ),
+          ],
+        ),
+      );
+
+      // Après fermeture de la modale, on met à jour l'état pour afficher la question camembert
       setState(() {
         isCamembertTurn = true;
         camembertTheme = question.theme;
@@ -117,7 +158,8 @@ void handleAnswer(bool isCorrect) {
         Navigator.pushReplacement(
           context,
           MaterialPageRoute(
-            builder: (_) => ResultScreen(winner: widget.gameState.currentTeam.name),
+            builder: (_) =>
+                ResultScreen(winner: widget.gameState.currentTeam.name),
           ),
         );
         return;
@@ -131,7 +173,6 @@ void handleAnswer(bool isCorrect) {
   }
   loadQuestion();
 }
-
 
   void resetTurn() {
     setState(() {
@@ -176,6 +217,9 @@ void handleAnswer(bool isCorrect) {
   @override
   Widget build(BuildContext context) {
     final team = widget.gameState.currentTeam;
+    final screenHeight = MediaQuery.of(context).size.height;
+  final screenWidth = MediaQuery.of(context).size.width;
+
     return Scaffold(
       body: Container(
         decoration: BoxDecoration(
@@ -190,34 +234,35 @@ void handleAnswer(bool isCorrect) {
           ),
         ),
         child: Padding(
-          padding: const EdgeInsets.all(16.0),
+          padding: EdgeInsets.all(screenWidth * 0.06),
           child: Column(
             children: [
-              const SizedBox(height: 30),
+             SizedBox(height: screenHeight * 0.08),
               // En-tête
-              Text(
-                'Équipe : ${team.name}',
-                style: TextStyle(
-                  fontSize: 28,
-                  color: Colors.brown[900],
-                  fontWeight: FontWeight.bold,
-                  fontFamily: 'Times New Roman',
-                ),
+               Text(
+              'Équipe : ${team.name}',
+              style: TextStyle(
+                fontSize: screenWidth * 0.08,
+                color: Colors.brown[900],
+                fontWeight: FontWeight.bold,
+                fontFamily: 'Times New Roman',
               ),
-              SizedBox(height: 60),
+              textAlign: TextAlign.center,
+            ),
+               SizedBox(height: screenHeight * 0.04),
               
             
               
               // Conteneur de la question
-              Expanded(
-                child: SingleChildScrollView(
-                  child: Container(
-                    padding: EdgeInsets.all(20),
-                    decoration: BoxDecoration(
-                         color: const Color(0xFFF5F5DC).withAlpha(230),
-                      borderRadius: BorderRadius.circular(10),
-                      border: Border.all(color: Colors.brown[800]!),
-                    ),
+             Expanded(
+              child: SingleChildScrollView(
+                child: Container(
+                  padding: EdgeInsets.all(screenWidth * 0.05),
+                  decoration: BoxDecoration(
+                    color: const Color(0xFFF5F5DC).withAlpha(230),
+                    borderRadius: BorderRadius.circular(10),
+                    border: Border.all(color: Colors.brown[800]!),
+                  ),
                     child: Column(
                       children: [
                         // Thème

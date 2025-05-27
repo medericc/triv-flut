@@ -5215,12 +5215,7 @@ Question(
   correctIndex: 0,
   theme: 'Personnages',
 ),
-Question(
-  question: 'Qui a interprété les rêves du pharaon en Égypte ?',
-  options: ['Joseph'],
-  correctIndex: 0,
-  theme: 'Personnages',
-),
+
 Question(
   question: 'Qui a eu le don d’interpréter les songes à Babylone ?',
   options: ['Daniel'],
