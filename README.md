@@ -1,4 +1,4 @@
-# trivia_chretien
+# trivia_biblique
 
 A new Flutter project.
 

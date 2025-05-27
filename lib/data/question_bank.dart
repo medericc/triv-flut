@@ -1,4 +1,4 @@
-import 'package:trivia_chretien/models/question.dart';
+import 'package:trivia_biblique/models/question.dart';
 
 final List<Question> allQuestions = [
   // 🟣 Histoire

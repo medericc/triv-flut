@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:trivia_chretien/models/game_state.dart';
-import 'package:trivia_chretien/models/team.dart';
-import 'package:trivia_chretien/screens/game_screen.dart';
+import 'package:trivia_biblique/models/game_state.dart';
+import 'package:trivia_biblique/models/team.dart';
+import 'package:trivia_biblique/screens/game_screen.dart';
 
 class SetupScreen extends StatefulWidget {
   @override
@@ -181,27 +181,27 @@ class _SetupScreenState extends State<SetupScreen> {
       letterSpacing: 1,
     ),
   ),
-  onPressed: () {
-    if (controllers.any((c) => c.text.isEmpty)) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          content: Text('Veuillez nommer toutes les équipes'),
-          backgroundColor: Colors.brown[700],
-        ),
-      );
-      return;
-    }
-
-    final teams = List.generate(teamCount, (i) => Team(controllers[i].text));
-    final gameState = GameState(teams: teams);
-    Navigator.pushReplacement(
-      context,
-      MaterialPageRoute(builder: (_) => GameScreen(gameState: gameState)),
+ onPressed: () {
+  if (controllers.take(teamCount).any((c) => c.text.isEmpty)) {
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        content: Text('Veuillez nommer toutes les équipes'),
+        backgroundColor: Colors.brown[700],
+      ),
     );
-  },
-),
+    return;
+  }
 
-                    ],
+  final teams = List.generate(teamCount, (i) => Team(controllers[i].text));
+  final gameState = GameState(teams: teams);
+  Navigator.pushReplacement(
+    context,
+    MaterialPageRoute(builder: (_) => GameScreen(gameState: gameState)),
+  );
+},
+
+
+                     )   ],
                   ),
                 ),
                 

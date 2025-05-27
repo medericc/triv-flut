@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:trivia_chretien/screens/home_screen.dart';
+import 'package:trivia_biblique/screens/home_screen.dart';
 
 void main() => runApp(MyApp());
 

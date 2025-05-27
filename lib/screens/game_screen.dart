@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:trivia_chretien/models/game_state.dart';
-import 'package:trivia_chretien/screens/result_screen.dart';
-import 'package:trivia_chretien/models/question.dart';
+import 'package:trivia_biblique/models/game_state.dart';
+import 'package:trivia_biblique/screens/result_screen.dart';
+import 'package:trivia_biblique/models/question.dart';
 
 class GameScreen extends StatefulWidget {
   final GameState gameState;
@@ -177,9 +177,9 @@ class _GameScreenState extends State<GameScreen> {
 
   Widget buildScoreBoard() {
     return Container(
-      padding: EdgeInsets.all(15),
+      padding: EdgeInsets.all(20),
       decoration: BoxDecoration(
-        color: Color(0xFFF5F5DC).withOpacity(0.8),
+         color: const Color(0xFFF5F5DC).withAlpha(204),
         borderRadius: BorderRadius.circular(10),
         border: Border.all(color: Colors.brown[800]!),
       ),
@@ -189,8 +189,8 @@ class _GameScreenState extends State<GameScreen> {
           return Padding(
             padding: const EdgeInsets.symmetric(vertical: 5),
             child: Text(
-              '${team.name} : ${isCurrent ? correctAnswers : 0}/3, ${team.wonThemes.length} camemberts',
-              style: TextStyle(
+            '${team.name} : ${isCurrent ? correctAnswers : 0}/3, ${team.wonThemes.length} ${team.wonThemes.length == 1 ? "camembert" : "camemberts"}',
+ style: TextStyle(
                 fontSize: 16,
                 color: Colors.brown[900],
                 fontWeight: isCurrent ? FontWeight.bold : FontWeight.normal,
@@ -223,6 +223,7 @@ class _GameScreenState extends State<GameScreen> {
           padding: const EdgeInsets.all(16.0),
           child: Column(
             children: [
+              const SizedBox(height: 30),
               // En-tête
               Text(
                 'Équipe : ${team.name}',
@@ -233,11 +234,9 @@ class _GameScreenState extends State<GameScreen> {
                   fontFamily: 'Times New Roman',
                 ),
               ),
-              SizedBox(height: 20),
+              SizedBox(height: 60),
               
-              // Tableau des scores
-              buildScoreBoard(),
-              SizedBox(height: 30),
+            
               
               // Conteneur de la question
               Expanded(
@@ -245,7 +244,7 @@ class _GameScreenState extends State<GameScreen> {
                   child: Container(
                     padding: EdgeInsets.all(20),
                     decoration: BoxDecoration(
-                      color: Color(0xFFF5F5DC).withOpacity(0.9),
+                         color: const Color(0xFFF5F5DC).withAlpha(230),
                       borderRadius: BorderRadius.circular(10),
                       border: Border.all(color: Colors.brown[800]!),
                     ),
@@ -302,7 +301,7 @@ class _GameScreenState extends State<GameScreen> {
     border: Border.all(color: Colors.brown.shade800), // Bord marron foncé
   ),
   child: Text(
-    'Réponse : ${currentQuestion.options[currentQuestion.correctIndex]}',
+    '${currentQuestion.options[currentQuestion.correctIndex]}',
     style: TextStyle(
       fontSize: 20,
       color: Colors.brown.shade900, // Texte marron foncé
@@ -329,7 +328,8 @@ class _GameScreenState extends State<GameScreen> {
         ),
       ),
       onPressed: () => handleAnswer(true),
-      icon: const Icon(Icons.check, size: 28),
+      icon: const Icon(Icons.check, size: 28,
+  color: Colors.white,),
       label: const Text('Correct'),
     ),
 
@@ -345,18 +345,27 @@ class _GameScreenState extends State<GameScreen> {
         ),
       ),
       onPressed: () => handleAnswer(false),
-      icon: const Icon(Icons.close, size: 28),
+      icon: const Icon(
+  Icons.close,
+  size: 28,
+  color: Colors.white,
+),
       label: const Text('Incorrect'),
     ),
   ],
 )
-,
-                        ],
+,   
+                        ], 
                       ],
                     ),
                   ),
                 ),
               ),
+            
+              // Tableau des scores (déplacé en bas)
+              buildScoreBoard(),
+                SizedBox(height: 70),
+              
             ],
           ),
         ),

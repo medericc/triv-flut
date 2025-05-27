@@ -1,6 +1,6 @@
-import 'package:trivia_chretien/models/team.dart';
-import 'package:trivia_chretien/models/question.dart';
-import 'package:trivia_chretien/data/question_bank.dart';
+import 'package:trivia_biblique/models/team.dart';
+import 'package:trivia_biblique/models/question.dart';
+import 'package:trivia_biblique/data/question_bank.dart';
 
 class GameState {
   final List<Team> teams;

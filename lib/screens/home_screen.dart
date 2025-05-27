@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:trivia_chretien/screens/setup_screen.dart';
+import 'package:trivia_biblique/screens/setup_screen.dart';
 
 class HomeScreen extends StatelessWidget {
   @override

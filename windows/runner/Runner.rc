@@ -90,12 +90,12 @@ BEGIN
         BLOCK "040904e4"
         BEGIN
             VALUE "CompanyName", "com.example" "\0"
-            VALUE "FileDescription", "trivia_chretien" "\0"
+            VALUE "FileDescription", "trivia_biblique" "\0"
             VALUE "FileVersion", VERSION_AS_STRING "\0"
-            VALUE "InternalName", "trivia_chretien" "\0"
+            VALUE "InternalName", "trivia_biblique" "\0"
             VALUE "LegalCopyright", "Copyright (C) 2025 com.example. All rights reserved." "\0"
-            VALUE "OriginalFilename", "trivia_chretien.exe" "\0"
-            VALUE "ProductName", "trivia_chretien" "\0"
+            VALUE "OriginalFilename", "trivia_biblique.exe" "\0"
+            VALUE "ProductName", "trivia_biblique" "\0"
             VALUE "ProductVersion", VERSION_AS_STRING "\0"
         END
     END

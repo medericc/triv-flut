@@ -1,6 +1,6 @@
 {
-    "name": "trivia_chretien",
-    "short_name": "trivia_chretien",
+    "name": "trivia_biblique",
+    "short_name": "trivia_biblique",
     "start_url": ".",
     "display": "standalone",
     "background_color": "#0175C2",
