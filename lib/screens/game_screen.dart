@@ -75,43 +75,63 @@ class _GameScreenState extends State<GameScreen> {
 
   }
 
-  void loadQuestion() {
-    setState(() {
-      showAnswer = false;
-      if (isCamembertTurn && camembertTheme != null) {
-        currentQuestion = widget.gameState.getQuestionForTheme(camembertTheme!)!;
-      } else {
-        currentQuestion = widget.gameState.getRandomQuestions(1).first;
-      }
-    });
-  }
+void loadQuestion() {
+  setState(() {
+    showAnswer = false;
 
-  void handleAnswer(bool isCorrect) {
-    if (isCorrect) {
-      correctAnswers++;
-      if (!isCamembertTurn && correctAnswers == 3) {
-        showCamembertThemeSelection();
-        return;
-      } else if (isCamembertTurn) {
-        widget.gameState.addThemeToCurrentTeam(camembertTheme!);
-        if (widget.gameState.currentTeamHasWon()) {
-          Navigator.pushReplacement(
-            context,
-            MaterialPageRoute(
-              builder: (_) => ResultScreen(winner: widget.gameState.currentTeam.name),
-            ),
-          );
-          return;
-        }
+    if (!isCamembertTurn) {
+      // Si ce n'est PAS un tour camembert, on charge une nouvelle question normale
+      currentQuestion = widget.gameState.getRandomQuestions(1).first;
+    }
+
+    // Sinon : NE RIEN FAIRE → on garde la question camembert déjà définie avant
+  });
+}
+
+
+void handleAnswer(bool isCorrect) {
+  if (isCorrect) {
+    correctAnswers++;
+    if (!isCamembertTurn && correctAnswers == 3) {
+      // Phase camembert : charger une question camembert aléatoire automatique
+      final question = widget.gameState.getRandomQuestionForAvailableThemes();
+
+      if (question == null) {
+        // Plus de questions disponibles, gérer ça (ex: fin de jeu)
+        // Ou simplement passer au reset
         resetTurn();
         return;
       }
-    } else {
+
+      setState(() {
+        isCamembertTurn = true;
+        camembertTheme = question.theme;
+        currentQuestion = question;
+        showAnswer = false;
+      });
+
+      return;
+    } else if (isCamembertTurn) {
+      widget.gameState.addThemeToCurrentTeam(camembertTheme!);
+      if (widget.gameState.currentTeamHasWon()) {
+        Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(
+            builder: (_) => ResultScreen(winner: widget.gameState.currentTeam.name),
+          ),
+        );
+        return;
+      }
       resetTurn();
       return;
     }
-    loadQuestion();
+  } else {
+    resetTurn();
+    return;
   }
+  loadQuestion();
+}
+
 
   void resetTurn() {
     setState(() {
@@ -123,57 +143,7 @@ class _GameScreenState extends State<GameScreen> {
     showNextTeamDialog();
   }
 
-  void showCamembertThemeSelection() {
-    final availableThemes = widget.gameState.allThemes
-        .where((theme) => widget.gameState.isThemeAvailableForCamembert(theme))
-        .toList();
 
-   showDialog(
-  context: context,
-  barrierDismissible: false,
-  builder: (_) => AlertDialog(
-    backgroundColor: const Color(0xFFF5F5DC), // Couleur personnalisée inchangée
-    title: const Text(
-      '🎯 Question Camembert !',
-      style: TextStyle(
-        color: Colors.brown, // ou mieux : Colors.brown.shade900
-        fontSize: 24,
-      ),
-    ),
-    content: SingleChildScrollView(
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
-        children: availableThemes.map((theme) {
-          return Padding(
-            padding: const EdgeInsets.symmetric(vertical: 5),
-            child: ElevatedButton(
-              style: ElevatedButton.styleFrom(
-                backgroundColor: Colors.brown.shade600, // Remplace `primary`
-                padding: const EdgeInsets.symmetric(vertical: 15),
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(10),
-                ),
-              ),
-              onPressed: () {
-                Navigator.pop(context);
-                setState(() {
-                  isCamembertTurn = true;
-                  camembertTheme = theme;
-                });
-                loadQuestion();
-              },
-              child: Text(
-                theme,
-                style: const TextStyle(fontSize: 16),
-              ),
-            ),
-          );
-        }).toList(),
-      ),
-    ),
-  ),
-);
-  }
 
   Widget buildScoreBoard() {
     return Container(

@@ -74,8 +74,8 @@ class GameState {
     askedQuestions.add(question);
     return question;
   }
-}
-Question? getRandomQuestionForAvailableThemes() {
+
+  Question? getRandomQuestionForAvailableThemes() {
   // Thèmes que l'équipe n'a pas encore gagnés
   final availableThemes = allThemes.where((theme) => isThemeAvailableForCamembert(theme)).toList();
 
@@ -90,4 +90,6 @@ Question? getRandomQuestionForAvailableThemes() {
   final question = filteredQuestions.first;
   askedQuestions.add(question);
   return question;
+}
+
 }
