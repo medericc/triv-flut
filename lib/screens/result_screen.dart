@@ -30,11 +30,11 @@ class ResultScreen extends StatelessWidget {
                   width: MediaQuery.of(context).size.width * 0.85,
                   padding: EdgeInsets.all(25),
                   decoration: BoxDecoration(
-                    color: Color(0xFFF5F5DC).withOpacity(0.9),
+                    color: const Color(0xFFF5F5DC).withAlpha(230), // 230 ≈ 0.9 * 255
                     borderRadius: BorderRadius.circular(10),
                     boxShadow: [
                       BoxShadow(
-                        color: Colors.brown.withOpacity(0.5),
+                         color: Colors.brown.withAlpha(128), // 128 ≈ 0.5 * 255
                         blurRadius: 10,
                         spreadRadius: 3,
                         offset: Offset(0, 5),

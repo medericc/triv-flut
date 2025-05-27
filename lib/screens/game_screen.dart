@@ -186,33 +186,42 @@ void handleAnswer(bool isCorrect) async {
 
 
 
-  Widget buildScoreBoard() {
-    return Container(
-      padding: EdgeInsets.all(20),
-      decoration: BoxDecoration(
-         color: const Color(0xFFF5F5DC).withAlpha(204),
-        borderRadius: BorderRadius.circular(10),
-        border: Border.all(color: Colors.brown[800]!),
-      ),
-      child: Column(
-        children: widget.gameState.teams.map((team) {
-          final isCurrent = team == widget.gameState.currentTeam;
-          return Padding(
-            padding: const EdgeInsets.symmetric(vertical: 5),
-            child: Text(
+Widget buildScoreBoard() {
+  final screenWidth = MediaQuery.of(context).size.width;
+  final screenHeight = MediaQuery.of(context).size.height;
+
+  return Container(
+    padding: EdgeInsets.symmetric(
+      horizontal: screenWidth * 0.05,
+      vertical: screenHeight * 0.02,
+    ),
+    decoration: BoxDecoration(
+      color: const Color(0xFFF5F5DC).withAlpha(220),
+      borderRadius: BorderRadius.circular(15),
+      border: Border.all(color: Colors.brown[800]!, width: 1.5),
+    ),
+    child: Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: widget.gameState.teams.map((team) {
+        final isCurrent = team == widget.gameState.currentTeam;
+        return Padding(
+          padding: EdgeInsets.symmetric(vertical: screenHeight * 0.006),
+          child: Text(
             '${team.name} : ${isCurrent ? correctAnswers : 0}/3, ${team.wonThemes.length} ${team.wonThemes.length == 1 ? "camembert" : "camemberts"}',
- style: TextStyle(
-                fontSize: 16,
-                color: Colors.brown[900],
-                fontWeight: isCurrent ? FontWeight.bold : FontWeight.normal,
-                fontFamily: 'Times New Roman',
-              ),
+            style: TextStyle(
+              fontSize: 24, // ← Avant 16, donc environ +50%
+              color: Colors.brown[900],
+              fontWeight: isCurrent ? FontWeight.bold : FontWeight.normal,
+              fontFamily: 'Times New Roman',
             ),
-          );
-        }).toList(),
-      ),
-    );
-  }
+          ),
+        );
+      }).toList(),
+    ),
+  );
+}
+
+
 
   @override
   Widget build(BuildContext context) {
