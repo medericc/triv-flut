@@ -8,12 +8,12 @@ class GameState {
 
   // Liste globale des thèmes disponibles
   final List<String> allThemes = [
-    'Histoire',
-    'Sciences',
-    'Géographie',
-    'Sport',
-    'Divertissement',
-    'Art & Littérature'
+    'Torah',
+    'Prophètes',
+    'Nouveau Testament',
+    'Propagation',
+    'Personnages',
+    'Culture'
   ];
 
   // Historique des questions posées (pour éviter répétition)
@@ -74,4 +74,20 @@ class GameState {
     askedQuestions.add(question);
     return question;
   }
+}
+Question? getRandomQuestionForAvailableThemes() {
+  // Thèmes que l'équipe n'a pas encore gagnés
+  final availableThemes = allThemes.where((theme) => isThemeAvailableForCamembert(theme)).toList();
+
+  // Filtrer toutes les questions pour ne garder que celles dont le thème est disponible
+  final filteredQuestions = allQuestions
+      .where((q) => availableThemes.contains(q.theme) && !askedQuestions.contains(q))
+      .toList();
+
+  if (filteredQuestions.isEmpty) return null;
+
+  filteredQuestions.shuffle();
+  final question = filteredQuestions.first;
+  askedQuestions.add(question);
+  return question;
 }
