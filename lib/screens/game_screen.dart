@@ -228,7 +228,7 @@ Widget buildScoreBoard() {
     final team = widget.gameState.currentTeam;
     final screenHeight = MediaQuery.of(context).size.height;
   final screenWidth = MediaQuery.of(context).size.width;
-
+ final isTablet = screenWidth > 600; // Seuil tablette
     return Scaffold(
       body: Container(
         decoration: BoxDecoration(
@@ -246,9 +246,10 @@ Widget buildScoreBoard() {
           padding: EdgeInsets.all(screenWidth * 0.06),
           child: Column(
             children: [
-             SizedBox(height: screenHeight * 0.08),
-              // En-tête
-               Text(
+                 // Titre avec hauteur ajustée selon l'écran
+            SizedBox(height: isTablet ? screenHeight * 0.05 : screenHeight * 0.08),
+          
+              Text(
               'Équipe : ${team.name}',
               style: TextStyle(
                 fontSize: screenWidth * 0.08,
@@ -385,7 +386,9 @@ Widget buildScoreBoard() {
                   ),
                 ),
               ),
-            
+             // Ajout d’un espace ajusté avant le scoreboard
+            SizedBox(height: isTablet ? 40 : 20), // Plus d’espace si tablette
+
               // Tableau des scores (déplacé en bas)
               buildScoreBoard(),
                 SizedBox(height: 70),
